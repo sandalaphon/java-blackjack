@@ -8,7 +8,61 @@ public class HandEvaluator{
     this.hand = hand;
   }
 
+  public int whatMove(){
+    //0 for hit, 1 for stick, 2 for double, 3 for split, 4 for bust, 5 identify blackjack
+    if (isPlayerBust()){return 4;}
+    if(hasBlackJack()){return 5;}
+    //not soft totals yet
+    if(hasSeventeenormore()){return 1;}
+    else {return 0;}
+  }
 
+// ugly ternary that checks for blackjack
+  public boolean hasBlackJack(){
+    return ((this.hand.size()==2) && (hasAce() && hasTen())) ? true : false;
+
+  }
+
+  public boolean hasSeventeenormore(){
+    int handValue= getHandValue();
+    if (handValue>=17){return true;}
+    return false;
+  }
+
+  public int getHandValue(){
+   int sum = 0;
+   for (Card card : this.hand ) {
+     sum += card.getCardValue().bJValue();
+   }
+   return sum;
+  }
+
+  public boolean isPlayerBust(){
+   int handValue= getHandValue();
+   return (handValue > 21 ? true : false) ;
+  }
+
+  // public boolean hasBlackJack(){
+
+  // }
+
+  public boolean hasTen(){
+    for(Card card: this.hand){
+      if(card.getCardValue().bJValue()==10){return true;}
+    }
+    return false;
+  }
+
+  public boolean hasAce(){
+    for(Card card: this.hand){
+      if (card.getCardValue()==CardValue.ACE){return true;}
+    }
+    return false;
+  }
+
+  // public boolean hasTen(){
+  //   for()
+  // }
 
   // 1. check if bust. 
   // 2. chick if blackjack...stands.
@@ -34,18 +88,7 @@ public class HandEvaluator{
   // ELSE hit.
   //
 
-  public int getHandValue(){
-   int sum = 0;
-   for (Card card : this.hand ) {
-     sum += card.getCardValue().bJValue();
-   }
-   return sum;
- }
-
- public boolean isHandBust(){
-   int handValue= getHandValue();
-   return (handValue > 21 ? true : false) ;
- }
+  
 
 
 }

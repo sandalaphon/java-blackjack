@@ -22,6 +22,10 @@ public class Dealer{
     shuffle();
   }
 
+  public ArrayList<Player> getPlayers(){
+    return this.players;
+  }
+
   public ArrayList<Card> shuffle(){
 
     Random randomnumber = new Random();
@@ -42,23 +46,81 @@ public class Dealer{
   }
 
   public void deal(){
-    Card card = shuffledCards.get(shuffledCards.size()-1);
+
     for (Player player : this.players ) {
+      System.out.println(player.getName());
+      Card card = shuffledCards.get(shuffledCards.size()-1);
        if (player.shouldDeal()) 
         {player.receiveCard(card);
         shuffledCards.remove(shuffledCards.size()-1);
+        // System.out.println(card);
        }
     }
+  }
+
+  public Player dealerAsPlayer(){
+    return this.dealerAsPlayer;
+  }
+
+  public void twist(Player player){
+    Card card = shuffledCards.get(shuffledCards.size()-1);
+    player.receiveCard(card);
+    shuffledCards.remove(shuffledCards.size()-1);
   }
 
   public int numberOfPlayers(){
     return this.players.size();
   }
 
+  public int cardsInDeck(){
+    return shuffledCards.size();
+  }
+
+
+public void dealerLoop(){
+  //two deals sets up hand 2 cards for players, 1 for dealer
+  deal();
+  deal();
+  for(Player player : players){
+  if (player.getName() != "dealer")
+    {dealTillStandOrBust(player);}
+    }
+  }
 
 
 
+public void dealTillStandOrBust(Player player){
+  
+  int movecode;
+  do{
+  movecode = player.checkHand();
+  switch(movecode){
+    case 0: twist(player);
+    case 1: return;
+    case 2: return; //double when betting
+    case 3: return; //split when coded
+    case 4: player.deleteHand();return; //player is bust. remove money and clear hand.
+    case 5: return; //blackjack identified
+    }
+    }
+  while (movecode<0);
+  }
 
+  public void dealerTwistsUntil17OrBust(){
+   dealTillStandOrBust(this.dealerAsPlayer);
+  }
+
+  public void winnersAndLosers(){
+    int dealerHandValue = this.dealerAsPlayer.getHandValue();
+    for (Player player: this.players){
+    if (player.getHandValue()>dealerHandValue&&(player.getName()!="dealer")) 
+      {player.win();}
+    else if (player.getHandValue()==dealerHandValue&&(player.getName()!="dealer"))
+      {player.stands();}
+      else {player.lose();}
+      player.deleteHand();
+    }
+  }
 
 
 }

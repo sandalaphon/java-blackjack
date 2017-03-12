@@ -14,6 +14,10 @@ public class Player{
    this.hand = new ArrayList<Card>();
  }
 
+ public String getName(){
+    return this.name;
+ }
+
 // player receives cards
  public void receiveCard(Card card){
   this.hand.add(card);
@@ -42,9 +46,26 @@ public class Player{
  }
 
  public boolean shouldDeal(){
+  if (this.name=="dealer" && this.hand.size()<1) {return true;}
  return (this.hand.size()<2 && this.name!="dealer"  ? true : false);
  }
 
+ public int checkHand(){
+  HandEvaluator evaluator = new HandEvaluator(this.hand);
+  return evaluator.whatMove();
 
+ }
+
+public void win(){
+  System.out.println(this.name + " has won!");
+}
+
+public void lose(){
+  System.out.println(this.name + " has lost :)");
+}
+
+public void stands(){
+  System.out.println(this.name + " hands are equal stands");
+}
 
 }
