@@ -17,36 +17,54 @@ public class HandEvaluator{
     else {return 0;}
   }
 
-// ugly ternary that checks for blackjack
+  
+
+  // ugly ternary that checks for blackjack
   public boolean hasBlackJack(){
     return ((this.hand.size()==2) && (hasAce() && hasTen())) ? true : false;
-
   }
 
   public boolean hasSeventeenormore(){
-    int handValue= getHandValue();
-    if (handValue>=17){return true;}
-    return false;
-  }
-
-  public int getHandValue(){
-   int sum = 0;
-   for (Card card : this.hand ) {
-     sum += card.getCardValue().bJValue();
+    if (!hasAce()){
+      int handValue= getHandValue();
+      if (handValue>=17){return true;}
+      return false;}
+      else if (hasAce()){
+      if (getSoftHandValue()>=17){return true;}
+      return false;}
+      System.out.println("Error Hand Evaluator line 35, ought not get here");
+      return false;
+      }
+    
+ // What if 2 Aces? Next problem! checking duplicates next step. Incidentally this will work once aces are split for punters and house cant split aces.
+    public int getSoftHandValue(){
+      int sum = 0;
+      for (Card card : this.hand ) {
+        if(card.getCardValue()==CardValue.ACE){sum += 1;}
+         else {sum += card.getCardValue().bJValue();}
+       }
+     return sum;
    }
-   return sum;
-  }
 
-  public boolean isPlayerBust(){
-   int handValue= getHandValue();
-   return (handValue > 21 ? true : false) ;
-  }
+
+   public int getHandValue(){
+     int sum = 0;
+     for (Card card : this.hand ) {
+       sum += card.getCardValue().bJValue();
+     }
+     return sum;
+   }
+
+   public boolean isPlayerBust(){
+     int handValue= getHandValue();
+     return (handValue > 21 ? true : false) ;
+   }
 
   // public boolean hasBlackJack(){
 
   // }
 
-  public boolean hasTen(){
+   public boolean hasTen(){
     for(Card card: this.hand){
       if(card.getCardValue().bJValue()==10){return true;}
     }
@@ -59,6 +77,7 @@ public class HandEvaluator{
     }
     return false;
   }
+
 
   // public boolean hasTen(){
   //   for()
@@ -88,7 +107,7 @@ public class HandEvaluator{
   // ELSE hit.
   //
 
-  
+
 
 
 }

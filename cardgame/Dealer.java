@@ -48,7 +48,7 @@ public class Dealer{
   public void deal(){
 
     for (Player player : this.players ) {
-      System.out.println(player.getName());
+      // System.out.println(player.getName());
       Card card = shuffledCards.get(shuffledCards.size()-1);
        if (player.shouldDeal()) 
         {player.receiveCard(card);
