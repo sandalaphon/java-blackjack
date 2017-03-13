@@ -85,14 +85,16 @@ public void dealerLoop(){
   if (player.getName() != "dealer")
     {dealTillStandOrBust(player);}
     }
-    // winnersAndLosers();
+    dealerTwistsUntil17OrBust();
+    if (dealerAsPlayer.isPlayerBust()){System.out.println("dealer has gone bust!!!!!!!!!!!!!");}
+    winnersAndLosers();
   }
 
 // public void dealTillStandOrBust(Player player){
   
 //   int movecode;
 //   movecode = player.checkHand();
-//  while(movecode>0){
+//  while(movecode<0){
 //   movecode = player.checkHand();
 //   switch(movecode){
 //     case 0: twist(player);
@@ -105,9 +107,9 @@ public void dealerLoop(){
 //     return; //blackjack identified
 //     }
 //    movecode = player.checkHand();
-//  }
-//    // if (movecode==4){System.out.println(player.getName() + " is bust");}
-//     }
+ // }
+   // if (movecode==4){System.out.println(player.getName() + " is bust");}
+    // }
 
   public void dealTillStandOrBust(Player player){
 
@@ -125,10 +127,12 @@ public void dealerLoop(){
   }
 
   public void winnersAndLosers(){
+    System.out.println("dealer had" + dealerAsPlayer.getHandValue());
     int dealerHandValue = this.dealerAsPlayer.getHandValue();
+    if (dealerAsPlayer.isPlayerBust()){dealerHandValue=-1;}
     for (Player player: this.players){
       if (player.isPlayerBust())
-        {player.lose();}
+        {System.out.println(player.getName() + " has gone bust");;player.lose();}
    else if (player.getHandValue()>dealerHandValue&&(player.getName()!="dealer")) 
       {player.win();}
     else if (player.getHandValue()==dealerHandValue&&(player.getName()!="dealer"))
