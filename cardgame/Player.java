@@ -27,6 +27,14 @@ public class Player{
   return this.hand;
  }
 
+ public String getHandAsString(){
+  String str = new String();
+  for (Card card : this.hand){
+    str += (" " + card.getCardValue() + card.getCardSuit() + " ");
+  }
+  return str;
+ }
+
 // after each round hand is removed by dealer
  public void deleteHand(){
   this.hand.clear();

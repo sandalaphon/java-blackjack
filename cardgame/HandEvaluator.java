@@ -28,7 +28,8 @@ public class HandEvaluator{
     if (!hasAce()){
       int handValue= getHandValue();
       if (handValue>=17){return true;}
-      return false;}
+      return false;
+    }
       else if (hasAce()){
       if (getSoftHandValue()>=17){return true;}
       return false;}

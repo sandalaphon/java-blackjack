@@ -85,26 +85,40 @@ public void dealerLoop(){
   if (player.getName() != "dealer")
     {dealTillStandOrBust(player);}
     }
+    // winnersAndLosers();
   }
 
-
-
-public void dealTillStandOrBust(Player player){
+// public void dealTillStandOrBust(Player player){
   
-  int movecode;
-  do{
-  movecode = player.checkHand();
-  switch(movecode){
-    case 0: twist(player);
-    case 1: return;
-    case 2: return; //double when betting
-    case 3: return; //split when coded
-    case 4: player.deleteHand();return; //player is bust. remove money and clear hand.
-    case 5: return; //blackjack identified
+//   int movecode;
+//   movecode = player.checkHand();
+//  while(movecode>0){
+//   movecode = player.checkHand();
+//   switch(movecode){
+//     case 0: twist(player);
+//     case 1: System.out.println(player.getName() + " sticks on " + player.getHandValue() + player.getHandAsString());
+//     return; 
+//     case 2: return; //double when betting
+//     case 3: return; //split when coded
+//     case 4: System.out.println(player.getName() + " has gone bust");player.deleteHand();return; //player is bust. remove money and clear hand.
+//     case 5: System.out.println(player.getName() + " has BlackJack!");
+//     return; //blackjack identified
+//     }
+//    movecode = player.checkHand();
+//  }
+//    // if (movecode==4){System.out.println(player.getName() + " is bust");}
+//     }
+
+  public void dealTillStandOrBust(Player player){
+
+    while(!player.isPlayerBust()){
+     int movecode=player.checkHand();
+        if (movecode>0){System.out.println("returning");System.out.println(player.getName() + " finished with: " + player.getHandAsString()); return;}
+       twist(player);
+      }
     }
-    }
-  while (movecode<0);
-  }
+  
+
 
   public void dealerTwistsUntil17OrBust(){
    dealTillStandOrBust(this.dealerAsPlayer);
@@ -113,7 +127,9 @@ public void dealTillStandOrBust(Player player){
   public void winnersAndLosers(){
     int dealerHandValue = this.dealerAsPlayer.getHandValue();
     for (Player player: this.players){
-    if (player.getHandValue()>dealerHandValue&&(player.getName()!="dealer")) 
+      if (player.isPlayerBust())
+        {player.lose();}
+   else if (player.getHandValue()>dealerHandValue&&(player.getName()!="dealer")) 
       {player.win();}
     else if (player.getHandValue()==dealerHandValue&&(player.getName()!="dealer"))
       {player.stands();}
